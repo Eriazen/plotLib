@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 import pandas as pd
 
 class data:
@@ -11,13 +9,29 @@ class data:
     def loadData(self, file, delim):
         """ loads data into pandas DataFrame """
 
-        self.df = pd.read_table(self.dirs+file,delimiter=delim)
+        self.tables = {}
+        i = 0
+        for dir in self.dirs:
+            self.tables[i] = pd.read_table(dir+file,delimiter=delim)
+            i += 1
 
-    def selectData(self, col, arg):
+    def selectData(self, col, arg, sort):
         """ selects data based on values in a specified column,
          if arg is None, only select column"""
 
-        if arg == None:
-            return self.df[col]
+        for i in range(0,self.tables.__len__()):
+            if arg == None:
+                self.tables[i] = self.tables[i][col].sort_values()
+            else:
+                self.tables[i] = self.tables[i].loc[self.tables[i][col] == arg].sort_values(by=[sort])
 
-        return self.df.loc[self.df[col] == arg]
+    def assignValues(self, varList):
+        """ assigns values into lists in a dictionary """
+
+        values = {}
+        for i in range(0,self.tables.__len__()):
+            vars = []
+            for var in varList:
+                vars.append(self.tables[i][var])
+            values[i] = vars
+        return values

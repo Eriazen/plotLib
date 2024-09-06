@@ -1,0 +1,17 @@
+import matplotlib.pylab as plt
+from plotLib import *
+
+dirs = ["./testData/bfs_001_turbulent/",
+        "./testData/bfs_002_turbulent/"
+        ]
+file = "internalField.dat"
+
+data1 = data(dirs)
+data1.loadData(file,",")
+data1.selectData("x",0.50927,"y")
+values = data1.assignValues(["y","Ux"])
+
+fig = plt.figure(0)
+for i in range(0,values.__len__()):
+    plt.plot(values[i][0],values[i][1])
+fig.savefig("./testData/test.png")
