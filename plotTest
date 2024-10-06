@@ -2,16 +2,20 @@ import matplotlib.pylab as plt
 from plotLib import *
 
 dirs = ["./testData/bfs_001_turbulent/",
-        "./testData/bfs_002_turbulent/"
+        "./testData/bfs_001_turbulent/"
         ]
 file = "internalField.dat"
 
 data1 = data(dirs)
 data1.loadData(file,",")
-data1.selectData("x",0.50927,"y")
+args = [0.50927, 0.50927]
+data1.selectData("x","y",args)
 values = data1.assignValues(["y","Ux"])
 
+labels = ["1","2"]
+
 fig = plt.figure(0)
-for i in range(0,values.__len__()):
-    plt.plot(values[i][0],values[i][1])
+for i in range(values.__len__()):
+    plt.plot(values[i][0],values[i][1],label=labels[i])
+plt.legend()
 fig.savefig("./testData/test.png")
